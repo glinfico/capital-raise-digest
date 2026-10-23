@@ -10,30 +10,30 @@ export default function CapitalRaiseDigest() {
   const editions = [
     {
       id: "today",
-      date: "October 22, 2026",
-      headline: "Institutional Debt Syndication Surges 34% as AI-Driven Underwriting Secures Sub-48h Closing Windows",
-      category: "Macro Capital Markets & MCA",
+      date: "Sample Edition",
+      headline: "How to Evaluate a Capital-Raising Opportunity: Five Questions for Founders",
+      category: "Fundraising Strategy",
       readTime: "4 min read",
-      author: "Claude & Bloomberg Telemetry Desk",
-      summary: "Global liquidity shifts into alternative asset-backed tranches as private credit funds deploy over $4.2B into tech-enabled merchant cash advance syndications. Yield spreads tighten to 14.2% APY with zero default variance across Tier-1 portfolios."
+      author: "Capital Raise Digest Editorial",
+      summary: "A practical framework for assessing funding fit, capital structure, investor alignment, diligence readiness, and the true cost of capital."
     },
     {
       id: "yesterday",
-      date: "October 21, 2026",
-      headline: "Real Estate Debt & DSCR Tranches Unlock 5-Day Escrow Closing Gates Across Top 50 Metropolitan Markets",
-      category: "Real Estate (REI) Intelligence",
+      date: "Research Guide",
+      headline: "Private Credit, Bank Debt, and Equity: Understanding the Trade-Offs",
+      category: "Capital Markets Education",
       readTime: "6 min read",
-      author: "Glinfico Quantitative Desk",
-      summary: "Automated title verification and FinGoal cash flow telemetry eradicate friction in commercial real estate lending, enabling institutional syndicates to deploy capital 4x faster than traditional banking syndicates."
+      author: "Capital Raise Digest Editorial",
+      summary: "Compare financing routes by repayment obligations, dilution, covenants, timing, collateral, and the level of disclosure expected."
     },
     {
       id: "archive-1",
-      date: "October 20, 2026",
-      headline: "M&A Acquisition Finance Crosses $1.2B Milestone with Automated DART Financial Review Protocols",
-      category: "Mergers & Acquisitions",
+      date: "Deal Preparation",
+      headline: "Building a Diligence-Ready Data Room Before Approaching Investors",
+      category: "Deal Readiness",
       readTime: "5 min read",
-      author: "Syndicate Research Group",
-      summary: "Definitive purchase agreement generation engines reduce legal closing timelines from 90 days down to 14 calendar days, reshaping middle-market corporate acquisitions."
+      author: "Capital Raise Digest Editorial",
+      summary: "Organize financial statements, ownership records, operating metrics, legal documents, and use-of-funds assumptions before outreach."
     }
   ];
 
@@ -89,23 +89,23 @@ export default function CapitalRaiseDigest() {
 
           <div className="bg-white/5 p-6 rounded-2xl border border-white/10 space-y-4">
             <h3 className="text-xs font-mono uppercase tracking-widest text-amber-400 flex items-center gap-2">
-              <Activity className="h-4 w-4" /> Capital Markets Briefing — Illustrative Sample
+              <Activity className="h-4 w-4" /> Editor's Note — Publication Preview
             </h3>
             <p className="text-slate-300 text-xs leading-relaxed">
-              This section demonstrates the publication format. Replace illustrative commentary and metrics with source-checked reporting before treating them as factual market data.
+              This is an editorial demonstration, not breaking news or verified market reporting. Published market claims should include a named, checkable source and publication date.
             </p>
             <div className="grid md:grid-cols-3 gap-4 pt-2">
               <div className="bg-black/40 p-3 rounded-xl border border-white/10">
-                <span className="text-[10px] text-slate-400 uppercase block">Average APY Yield</span>
-                <strong className="text-emerald-400 text-lg font-mono">14.8%</strong>
+                <span className="text-[10px] text-slate-400 uppercase block">Funding Fit</span>
+                <strong className="text-emerald-400 text-sm font-semibold">Purpose & Eligibility</strong>
               </div>
               <div className="bg-black/40 p-3 rounded-xl border border-white/10">
-                <span className="text-[10px] text-slate-400 uppercase block">Default Variance</span>
-                <strong className="text-blue-400 text-lg font-mono">0.02%</strong>
+                <span className="text-[10px] text-slate-400 uppercase block">Capital Structure</span>
+                <strong className="text-blue-400 text-sm font-semibold">Debt, Equity & Hybrid</strong>
               </div>
               <div className="bg-black/40 p-3 rounded-xl border border-white/10">
-                <span className="text-[10px] text-slate-400 uppercase block">Monthly Volume</span>
-                <strong className="text-amber-400 text-lg font-mono">$1.24B</strong>
+                <span className="text-[10px] text-slate-400 uppercase block">Preparation</span>
+                <strong className="text-amber-400 text-sm font-semibold">Diligence Readiness</strong>
               </div>
             </div>
           </div>
@@ -113,7 +113,7 @@ export default function CapitalRaiseDigest() {
           <div className="flex justify-between items-center pt-4 border-t border-white/10 text-xs text-slate-400">
             <span>Authored by: <strong className="text-white">{activeContent.author}</strong></span>
             <span className="flex items-center gap-1 text-amber-400 font-bold">
-              Editorial Sample — Verify Sources <ShieldCheck className="h-4 w-4" />
+              Educational Preview <ShieldCheck className="h-4 w-4" />
             </span>
           </div>
         </Card>
