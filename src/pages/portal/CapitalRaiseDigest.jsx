@@ -1,146 +1,122 @@
-import React, { useState } from "react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { TrendingUp, Newspaper, ShieldCheck, Zap, ArrowRight, Activity, Globe } from "lucide-react";
+import React, { useMemo, useState } from "react";
+import { ArrowRight, ArrowUpRight, BookOpen, BriefcaseBusiness, Check, ChevronDown, Clock3, CreditCard, Globe2, Mail, Menu, Newspaper, Plane, Search, ShieldCheck, TrendingUp, X, Zap } from "lucide-react";
+
+const articles = [
+  { slug: "building-wealth-any-income", section: "Finance", category: "Finance", title: "Building Wealth on Any Income: The Framework That Actually Works", date: "2026-06-08", summary: "A practical framework for making sound financial decisions and building wealth at every income level.", image: "photo-1486406146926-c627a92ad1ab" },
+  { slug: "inflation-decoded", section: "Economy", category: "Economy", title: "Inflation Decoded: What the Numbers Never Tell You", date: "2026-06-08", summary: "Look beyond the headline number to understand how inflation affects households, businesses, and capital.", image: "photo-1460925895917-afdab827c52f" },
+  { slug: "insurance-gaps", section: "Insurance", category: "Insurance", title: "The Insurance Gaps That Could Ruin Your Business Overnight", date: "2026-06-08", summary: "Review the coverage gaps that can expose a growing business to avoidable financial risk.", image: "photo-1450101499163-c8848c66ca85" },
+  { slug: "business-travel-2026", section: "Travel", category: "Travel", title: "Business Travel in 2026: Spend Less, Arrive Better", date: "2026-06-08", summary: "A strategic approach to travel policy, trip value, and better business travel decisions.", image: "photo-1488646953014-85cb44e25828" },
+  { slug: "scaling-framework", section: "Business Consulting", category: "Consulting", title: "Five Questions Every Business Owner Needs Before Scaling", date: "2026-06-08", summary: "A decision framework for owners preparing to hire, expand, or raise capital.", image: "photo-1553484771-047a44eee27b" },
+  { slug: "credit-cycle-turning", section: "Economy", category: "Economy", title: "The Credit Cycle Is Turning: What It Means for Your Portfolio", date: "2026-06-08", summary: "Understand credit conditions, risk appetite, and the signals worth watching as markets shift.", image: "photo-1590283603385-17ffb3a7f29f" },
+  { slug: "retirement-planning-2026", section: "Retirement", category: "Retirement", title: "Retirement Planning in Uncertain Markets: A 2026 Guide", date: "2026-06-08", summary: "Build a resilient retirement strategy around time horizon, diversification, and risk.", image: "photo-1559526324-593bc0738d25" }
+];
+
+const sections = ["Finance", "Economy", "Insurance", "Travel", "Consulting", "Retirement"];
+const adSlots = [
+  { id: "cover", badge: "EXCLUSIVE", title: "Cover Takeover", description: "Full-width hero banner above all content on the magazine homepage. Maximum brand exposure.", price: "$8,500", period: "/month", reach: "~25,000 impressions/mo", specs: "1400×350 · desktop + mobile · 1 advertiser only" },
+  { id: "native", badge: "HIGH ENGAGEMENT", title: "In-Article Native Spot", description: "Editorial-style native placement inserted at the midpoint of every article. Readers are deep in content.", price: "$4,200", period: "/month", reach: "~18,000 engaged reads/mo", specs: "Full-width native card · logo + 80-word copy + CTA" },
+  { id: "brief", badge: "CURATED AUDIENCE", title: "Weekly Brief Sponsor", description: "Exclusive sponsorship inside the FinVenturePro weekly intelligence brief.", price: "$3,000", period: "/issue", reach: "~6,500 subscribers/issue", specs: "Logo + headline + 120-word sponsor copy block" },
+  { id: "consulting", badge: "TARGETED", title: "Consulting Section Sponsor", description: "Branded placement on all Consulting and Retirement section pages and AI chat interface.", price: "$2,800", period: "/month", reach: "~9,000 impressions/mo", specs: "300×250 · logo + tagline + link" },
+  { id: "footer", badge: "BRAND PRESENCE", title: "Network Footer Banner", description: "Persistent brand presence at the foot of every page across all six sections.", price: "$1,800", period: "/month", reach: "~30,000 impressions/mo", specs: "Full-width · logo + one-line tagline" },
+  { id: "section", badge: "NICHE REACH", title: "Section Category Sponsor", description: "Own an entire section — Finance, Economy, Insurance, Travel, Consulting, or Retirement.", price: "$2,200", period: "/month", reach: "Varies by section · avg 7,000/mo", specs: "Category badge + header placement + archive listing" }
+];
+
+function Logo({ small = false }) {
+  return <a href="#top" className="inline-flex items-center gap-3" aria-label="FinVenturePro home">
+    <span className={"flex items-center justify-center rounded-xl border border-blue-400/30 bg-blue-500/10 text-blue-300 " + (small ? "h-9 w-9" : "h-12 w-12")}><TrendingUp size={small ? 19 : 25} /></span>
+    <span className="leading-none"><span className="block text-lg font-black tracking-tight text-white">FinVenturePro</span><span className="mt-1 block text-[9px] font-bold uppercase tracking-[0.34em] text-blue-300">Intelligence</span></span>
+  </a>;
+}
+
+function ArticleCard({ article, compact = false }) {
+  return <article className="group overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/60 transition hover:-translate-y-1 hover:border-blue-500/40 hover:bg-slate-900">
+    {!compact && <div className="h-40 overflow-hidden bg-slate-800"><img loading="lazy" src={"https://images.unsplash.com/" + article.image + "?auto=format&fit=crop&w=1000&q=80"} alt="" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" /></div>}
+    <div className="p-5">
+      <div className="mb-3 flex items-center justify-between gap-3"><span className="text-[10px] font-bold uppercase tracking-[0.22em] text-blue-300">{article.section}</span><span className="text-[10px] text-slate-500">{article.date}</span></div>
+      <h3 className="text-base font-bold leading-snug text-white">{article.title}</h3>
+      {!compact && <p className="mt-2 text-sm leading-6 text-slate-400">{article.summary}</p>}
+      <a href="#archive" className="mt-4 inline-flex items-center gap-2 text-xs font-bold text-blue-300 hover:text-white">Read {compact ? "article" : "story"} <ArrowUpRight size={14} /></a>
+    </div>
+  </article>;
+}
 
 export default function CapitalRaiseDigest() {
-  const [selectedEdition, setSelectedEdition] = useState("today");
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [search, setSearch] = useState("");
+  const [selectedSlot, setSelectedSlot] = useState(null);
+  const [email, setEmail] = useState("");
+  const [interests, setInterests] = useState([]);
+  const [subscribed, setSubscribed] = useState(false);
+  const [question, setQuestion] = useState("");
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const filteredArticles = useMemo(() => articles.filter(a => (activeCategory === "All" || a.category === activeCategory || a.section === activeCategory) && (a.title.toLowerCase().includes(search.toLowerCase()) || a.section.toLowerCase().includes(search.toLowerCase()))), [activeCategory, search]);
+  const selectedAd = adSlots.find(s => s.id === selectedSlot);
 
-  const editions = [
-    {
-      id: "today",
-      date: "Sample Edition",
-      headline: "How to Evaluate a Capital-Raising Opportunity: Five Questions for Founders",
-      category: "Fundraising Strategy",
-      readTime: "4 min read",
-      author: "Capital Raise Digest Editorial",
-      summary: "A practical framework for assessing funding fit, capital structure, investor alignment, diligence readiness, and the true cost of capital."
-    },
-    {
-      id: "yesterday",
-      date: "Research Guide",
-      headline: "Private Credit, Bank Debt, and Equity: Understanding the Trade-Offs",
-      category: "Capital Markets Education",
-      readTime: "6 min read",
-      author: "Capital Raise Digest Editorial",
-      summary: "Compare financing routes by repayment obligations, dilution, covenants, timing, collateral, and the level of disclosure expected."
-    },
-    {
-      id: "archive-1",
-      date: "Deal Preparation",
-      headline: "Building a Diligence-Ready Data Room Before Approaching Investors",
-      category: "Deal Readiness",
-      readTime: "5 min read",
-      author: "Capital Raise Digest Editorial",
-      summary: "Organize financial statements, ownership records, operating metrics, legal documents, and use-of-funds assumptions before outreach."
-    }
-  ];
+  const toggleInterest = (label) => setInterests(old => old.includes(label) ? old.filter(x => x !== label) : [...old, label]);
 
-  const activeContent = editions.find(e => e.id === selectedEdition) || editions[0];
-
-  return (
-    <div className="min-h-screen bg-[#0a0a12] text-white p-6 md:p-12">
-      <div className="max-w-5xl mx-auto space-y-10">
-        
-        {/* Capital Raise Digest masthead */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pb-8 border-b border-white/10">
-          <div>
-            <div className="flex items-center gap-3 mb-3">
-              <svg aria-label="Capital Raise Digest gold star logo" role="img" width="42" height="42" viewBox="0 0 64 64" fill="none" className="shrink-0">
-                <rect width="64" height="64" rx="13" fill="#24180f" />
-                <path d="M32 5 38.6 24.1 59 24.5 42.7 36.8 48.6 56 32 44.2 15.4 56 21.3 36.8 5 24.5 25.4 24.1Z" fill="#c7a35b" stroke="#e5d2a0" strokeWidth="1.5" strokeLinejoin="round" />
-              </svg>
-              <div className="flex items-center gap-2 mb-2">
-              <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30 text-xs font-mono uppercase tracking-widest">
-                crd.glinfico.com • Capital Raise Digest
-              </Badge>
-              </div>
-            </div>
-            <h1 className="text-4xl font-black tracking-tight">Executive Capital Intelligence</h1>
-            <p className="text-slate-400 text-xs mt-1">Capital-markets coverage, fundraising themes, and deal intelligence. Verify source data before relying on any figures.</p>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <span className="text-xs text-slate-400">Independent Capital Markets Publication</span>
-          </div>
-        </div>
-
-        {/* Featured Article Layout */}
-        <Card className="bg-[#0f0f1e] border-white/10 text-white p-8 md:p-12 space-y-6 shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl pointer-events-none"></div>
-
-          <div className="flex flex-wrap items-center gap-3">
-            <Badge className="bg-emerald-500/20 text-emerald-400 border-0 text-xs font-mono">
-              {activeContent.category}
-            </Badge>
-            <span className="text-xs text-slate-400 font-mono">{activeContent.date}</span>
-            <span className="text-xs text-slate-500">•</span>
-            <span className="text-xs text-slate-400">{activeContent.readTime}</span>
-          </div>
-
-          <h2 className="text-3xl md:text-4xl font-black leading-tight">
-            {activeContent.headline}
-          </h2>
-
-          <p className="text-slate-300 text-sm md:text-base leading-relaxed border-l-2 border-amber-500 pl-4 py-1 italic">
-            "{activeContent.summary}"
-          </p>
-
-          <div className="bg-white/5 p-6 rounded-2xl border border-white/10 space-y-4">
-            <h3 className="text-xs font-mono uppercase tracking-widest text-amber-400 flex items-center gap-2">
-              <Activity className="h-4 w-4" /> Editor's Note — Publication Preview
-            </h3>
-            <p className="text-slate-300 text-xs leading-relaxed">
-              This is an editorial demonstration, not breaking news or verified market reporting. Published market claims should include a named, checkable source and publication date.
-            </p>
-            <div className="grid md:grid-cols-3 gap-4 pt-2">
-              <div className="bg-black/40 p-3 rounded-xl border border-white/10">
-                <span className="text-[10px] text-slate-400 uppercase block">Funding Fit</span>
-                <strong className="text-emerald-400 text-sm font-semibold">Purpose & Eligibility</strong>
-              </div>
-              <div className="bg-black/40 p-3 rounded-xl border border-white/10">
-                <span className="text-[10px] text-slate-400 uppercase block">Capital Structure</span>
-                <strong className="text-blue-400 text-sm font-semibold">Debt, Equity & Hybrid</strong>
-              </div>
-              <div className="bg-black/40 p-3 rounded-xl border border-white/10">
-                <span className="text-[10px] text-slate-400 uppercase block">Preparation</span>
-                <strong className="text-amber-400 text-sm font-semibold">Diligence Readiness</strong>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex justify-between items-center pt-4 border-t border-white/10 text-xs text-slate-400">
-            <span>Authored by: <strong className="text-white">{activeContent.author}</strong></span>
-            <span className="flex items-center gap-1 text-amber-400 font-bold">
-              Educational Preview <ShieldCheck className="h-4 w-4" />
-            </span>
-          </div>
-        </Card>
-
-        {/* Editorial preview topic selector */}
-        <div className="space-y-4">
-          <h3 className="text-lg font-bold">Editorial Preview Topics</h3>
-          <div className="grid md:grid-cols-3 gap-4">
-            {editions.map(ed => (
-              <Card
-                key={ed.id}
-                onClick={() => setSelectedEdition(ed.id)}
-                className={`p-5 cursor-pointer transition-all border ${
-                  selectedEdition === ed.id 
-                    ? "bg-amber-500/10 border-amber-500/50 shadow-lg" 
-                    : "bg-[#0f0f1e] border-white/10 hover:border-white/20"
-                }`}
-              >
-                <span className="text-[10px] font-mono text-amber-400 block mb-1">{ed.date}</span>
-                <h4 className="font-bold text-xs line-clamp-2 text-white mb-2">{ed.headline}</h4>
-                <span className="text-[10px] text-slate-400">{ed.readTime} • {ed.category}</span>
-              </Card>
-            ))}
-          </div>
-        </div>
-
+  return <div id="top" className="min-h-screen overflow-hidden bg-[#070d18] text-white">
+    <header className="sticky top-0 z-50 border-b border-slate-800/80 bg-[#070d18]/95 backdrop-blur-xl">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 lg:px-8">
+        <Logo small />
+        <nav className="hidden items-center gap-7 text-sm text-slate-300 md:flex">
+          <a href="#sections" className="hover:text-white">Topics</a><a href="#archive" className="hover:text-white">Archive</a><a href="#newsletter" className="hover:text-white">Newsletter</a><a href="#profile" className="hover:text-white">Profile</a>
+        </nav>
+        <div className="hidden items-center gap-3 md:flex"><a href="https://fod.glinfico.com" className="text-xs text-slate-400 hover:text-white">← FOD</a><a href="#newsletter" className="rounded-full bg-blue-600 px-5 py-2.5 text-xs font-bold text-white hover:bg-blue-500">Subscribe Free</a></div>
+        <button className="rounded-lg border border-slate-700 p-2 md:hidden" aria-label="Toggle menu" onClick={() => setMobileOpen(!mobileOpen)}>{mobileOpen ? <X size={20}/> : <Menu size={20}/>}</button>
       </div>
-    </div>
-  );
+      {mobileOpen && <div className="grid gap-3 border-t border-slate-800 px-5 py-4 text-sm md:hidden"><a href="#sections" onClick={() => setMobileOpen(false)}>Topics</a><a href="#archive" onClick={() => setMobileOpen(false)}>Archive</a><a href="#newsletter" onClick={() => setMobileOpen(false)}>Subscribe Free</a><a href="https://fod.glinfico.com">← FOD</a></div>}
+    </header>
+
+    <main>
+      <section className="relative px-5 pb-16 pt-16 lg:px-8 lg:pb-24 lg:pt-24">
+        <div className="pointer-events-none absolute inset-0 opacity-30" style={{backgroundImage:"radial-gradient(circle at 70% 25%, rgba(37,99,235,.25), transparent 36%), linear-gradient(rgba(59,130,246,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,.06) 1px, transparent 1px)",backgroundSize:"auto,56px 56px,56px 56px"}} />
+        <div className="relative mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.1fr_.9fr]">
+          <div>
+            <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-2 text-[10px] font-bold uppercase tracking-[.25em] text-blue-300"><Zap size={13}/> Summer 2026 Issue</div>
+            <h1 className="max-w-3xl text-5xl font-black leading-[.98] tracking-[-.055em] sm:text-7xl lg:text-[5.7rem]">Intelligence<br/><span className="bg-gradient-to-r from-blue-300 to-cyan-300 bg-clip-text text-transparent">that moves</span><br/>money forward.</h1>
+            <p className="mt-7 max-w-xl text-lg leading-8 text-slate-400">FinVenturePro covers Finance, Economy, Insurance, Travel, and Business Consulting — sharp analysis for people who make decisions that matter.</p>
+            <div className="mt-9 flex flex-wrap gap-3"><a href="#archive" className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-6 py-3 text-sm font-bold hover:bg-blue-500">Read the Archive <ArrowRight size={16}/></a><a href="#newsletter" className="rounded-full border border-slate-700 px-6 py-3 text-sm font-bold text-slate-200 hover:bg-slate-800">Subscribe Free</a></div>
+            <div className="mt-12 grid max-w-xl grid-cols-3 gap-3">
+              {[["6","Sections"],["Daily","AI Updates"],["Free","Forever"]].map(([v,l])=><div key={l} className="rounded-xl border border-slate-800 bg-slate-900/60 p-4"><div className="text-2xl font-black text-white">{v}</div><div className="mt-1 text-xs text-slate-500">{l}</div></div>)}
+            </div>
+          </div>
+          <div className="relative">
+            <div className="absolute -inset-4 rounded-[2rem] bg-blue-500/10 blur-2xl"/>
+            <div className="relative overflow-hidden rounded-[1.7rem] border border-slate-700 bg-slate-900 shadow-2xl">
+              <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=85" alt="Modern financial district skyline" className="h-64 w-full object-cover sm:h-80"/>
+              <div className="p-6 sm:p-8"><div className="mb-3 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[.24em] text-blue-300"><span className="h-1.5 w-1.5 rounded-full bg-blue-300"/> Featured Story · Finance</div><h2 className="text-2xl font-black leading-tight sm:text-3xl">Building Wealth on Any Income: The Framework That Actually Works</h2><a href="#archive" className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-blue-300">Read story <ArrowRight size={16}/></a></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="sections" className="border-y border-slate-800 bg-slate-950/60 px-5 py-12 lg:px-8">
+        <div className="mx-auto max-w-7xl"><div className="mb-7 flex flex-wrap items-end justify-between gap-4"><div><p className="text-[10px] font-bold uppercase tracking-[.28em] text-blue-300">Six sections</p><h2 className="mt-2 text-2xl font-black sm:text-3xl">All the intelligence you need, one publication.</h2></div><a href="#archive" className="text-xs font-bold text-blue-300">Explore the archive →</a></div>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">{sections.map((s,i)=><button key={s} onClick={()=>{setActiveCategory(s);document.getElementById("archive")?.scrollIntoView({behavior:"smooth"});}} className="flex items-center gap-3 rounded-xl border border-slate-800 bg-slate-900/70 p-4 text-left transition hover:border-blue-500/50 hover:bg-blue-500/10"><span className="text-blue-300">{[<TrendingUp size={18}/>,<Globe2 size={18}/>,<ShieldCheck size={18}/>,<Plane size={18}/>,<BriefcaseBusiness size={18}/>,<BookOpen size={18}/>][i]}</span><span className="text-xs font-bold">{s === "Consulting" ? "CONSULTING" : s.toUpperCase()}</span></button>)}</div>
+        </div>
+      </section>
+
+      <section className="px-5 py-16 lg:px-8"><div className="mx-auto max-w-7xl"><div className="mb-7 flex items-end justify-between gap-4"><div><p className="text-[10px] font-bold uppercase tracking-[.28em] text-blue-300">Latest edition</p><h2 className="mt-2 text-3xl font-black">Latest intelligence.</h2></div><a href="#archive" className="hidden text-sm font-bold text-blue-300 sm:block">Browse archive →</a></div><div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{articles.slice(0,6).map(a=><ArticleCard key={a.slug} article={a}/>)}</div></div></section>
+
+      <section id="archive" className="border-y border-slate-800 bg-slate-950/60 px-5 py-16 lg:px-8"><div className="mx-auto max-w-7xl"><div className="mb-8"><p className="text-[10px] font-bold uppercase tracking-[.28em] text-blue-300">Edition archive</p><h2 className="mt-2 text-3xl font-black">Browse the stories.</h2></div>
+        <div className="mb-7 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between"><div className="flex flex-wrap gap-2">{["All",...sections].map(cat=><button key={cat} onClick={()=>setActiveCategory(cat)} className={"rounded-full px-4 py-2 text-xs font-bold transition " + (activeCategory===cat ? "bg-blue-600 text-white" : "border border-slate-700 text-slate-400 hover:text-white")}>{cat === "All" ? "All" : cat}</button>)}</div><div className="relative w-full lg:max-w-xs"><Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"/><input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search stories..." className="w-full rounded-full border border-slate-700 bg-slate-900 py-2.5 pl-9 pr-4 text-sm outline-none focus:border-blue-500"/></div></div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{filteredArticles.map(a=><ArticleCard key={a.slug} article={a} compact/>)}{filteredArticles.length===0&&<p className="text-sm text-slate-400">No stories match this search.</p>}</div>
+      </div></section>
+
+      <section className="px-5 py-16 lg:px-8"><div className="mx-auto grid max-w-7xl gap-8 rounded-2xl border border-slate-800 bg-slate-900/40 p-7 sm:p-10 lg:grid-cols-[.8fr_1.2fr] lg:p-14"><div><p className="text-[10px] font-bold uppercase tracking-[.28em] text-blue-300">From the editor</p><h2 className="mt-3 text-3xl font-black leading-tight">A note on what we publish and why.</h2></div><div className="space-y-5 text-sm leading-7 text-slate-400"><p>FinVenturePro was built on a single conviction: the best-informed decision-makers in capital markets do not need more information. They need better signal. Every article we publish is evaluated on one criterion — does this change how a serious operator thinks about allocation?</p><p>This issue focuses on structural themes rather than calendar noise. The private market operating system, the credit repricing cycle, the founder-led fund model — these are multi-year dynamics that will compound regardless of what the central bank does on any given Wednesday.</p><p>We are also expanding our Funding Intelligence section in partnership with GLINFICO Research to cover alternative lending, commercial real estate capital, and M&A financing with the same analytical rigor we apply to institutional markets.</p><p className="font-bold text-slate-200">— The FinVenturePro Editorial Team</p></div></div></section>
+
+      <section id="consulting" className="px-5 py-16 lg:px-8"><div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[.85fr_1.15fr]"><div><p className="text-[10px] font-bold uppercase tracking-[.28em] text-blue-300">GLINFICO Business Consulting</p><h2 className="mt-3 text-4xl font-black leading-tight">Ask an expert.<br/><span className="text-blue-300">Right now.</span></h2><p className="mt-5 leading-7 text-slate-400">Our AI consulting engine is designed for capital markets, alternative lending, M&A, real estate finance, and business strategy. Start with a question or write your own.</p><p className="mt-4 text-xs text-slate-500">For funding execution, submit a deal through GLINFICO FOD.</p><a href="https://fod.glinfico.com" className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-blue-300">Submit a deal <ArrowRight size={16}/></a></div>
+        <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5 sm:p-7"><p className="mb-4 text-xs font-bold uppercase tracking-[.2em] text-slate-400">Start with one of these</p><div className="grid gap-2">{["How should I structure financing for a $2M commercial real estate deal?","What's the best funding path for a business doing $80K/month in revenue?","How do I evaluate an M&A target with negative EBITDA?","What are the key metrics LPs look for in an emerging fund manager?"].map(q=><button key={q} onClick={()=>setQuestion(q)} className="rounded-xl border border-slate-800 bg-slate-950/70 p-3 text-left text-sm text-slate-300 hover:border-blue-500/40 hover:text-white">{q}</button>)}</div><form onSubmit={e=>{e.preventDefault();}} className="mt-4 flex gap-2"><input value={question} onChange={e=>setQuestion(e.target.value)} placeholder="Write your question..." className="min-w-0 flex-1 rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm outline-none focus:border-blue-500"/><button type="submit" aria-label="Send question" className="rounded-xl bg-blue-600 px-4 text-white"><ArrowRight size={18}/></button></form><p className="mt-3 text-[10px] text-slate-500">Powered by GLINFICO AI · Connect the consulting service to enable live responses.</p></div>
+      </div></section>
+
+      <section id="ads" className="border-y border-slate-800 bg-slate-950/60 px-5 py-16 lg:px-8"><div className="mx-auto max-w-7xl"><div className="mb-8 flex flex-wrap items-end justify-between gap-4"><div><p className="text-[10px] font-bold uppercase tracking-[.28em] text-blue-300">Advertising</p><h2 className="mt-2 text-3xl font-black">Reach 25,000+ serious readers.</h2><p className="mt-3 max-w-2xl text-sm leading-6 text-slate-400">FinVenturePro readers are business owners, investors, and decision-makers actively managing money. Six open placements — all priced transparently.</p></div><span className="rounded-full border border-slate-700 px-4 py-2 text-xs text-slate-400">6 placements</span></div>
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">{adSlots.map((slot,i)=><article key={slot.id} className={"rounded-2xl border p-6 transition " + (selectedSlot===slot.id ? "border-blue-400 bg-blue-950/40" : "border-slate-800 bg-slate-900/50 hover:border-slate-700")}><div className="mb-5 flex items-start justify-between gap-3"><span className="rounded-full border border-blue-500/20 bg-blue-500/10 px-3 py-1 text-[9px] font-bold tracking-[.16em] text-blue-300">{slot.badge}</span><span className="text-xs text-slate-500">0{i+1}</span></div><h3 className="text-xl font-black">{slot.title}</h3><p className="mt-3 min-h-[72px] text-sm leading-6 text-slate-400">{slot.description}</p><div className="mt-5 text-3xl font-black">{slot.price}<span className="text-sm font-medium text-slate-500">{slot.period}</span></div><p className="mt-2 text-xs font-semibold text-blue-300">{slot.reach}</p><p className="mt-3 min-h-[36px] text-xs leading-5 text-slate-500">{slot.specs}</p><button onClick={()=>{setSelectedSlot(slot.id);document.getElementById("reserve")?.scrollIntoView({behavior:"smooth"});}} className="mt-5 w-full rounded-full border border-slate-700 px-4 py-3 text-xs font-bold hover:border-blue-400 hover:bg-blue-500/10">Select this placement</button></article>)}</div>
+        <div id="reserve" className="mt-8 rounded-2xl border border-slate-800 bg-slate-900/70 p-6 sm:p-8"><div className="flex items-start gap-4"><div className="rounded-xl bg-blue-500/10 p-3 text-blue-300"><CreditCard size={22}/></div><div className="flex-1"><h3 className="text-xl font-black">Reserve a placement</h3><p className="mt-2 text-sm text-slate-400">Select a spot above, then complete checkout.</p>{selectedAd ? <div className="mt-4 rounded-xl border border-blue-500/30 bg-blue-500/5 p-4"><p className="text-xs uppercase tracking-[.2em] text-blue-300">Selected placement</p><div className="mt-2 flex flex-wrap items-center justify-between gap-3"><p className="font-bold">{selectedAd.title}</p><p className="text-xl font-black">{selectedAd.price}<span className="text-sm font-medium text-slate-500">{selectedAd.period}</span></p></div><p className="mt-2 text-xs text-slate-400">Secure PayPal checkout integration must be connected to the CRD runtime before payment can be accepted.</p><a href="mailto:contact@glinfico.com?subject=FinVenturePro%20Advertising%20Placement" className="mt-4 inline-flex rounded-full bg-blue-600 px-5 py-3 text-xs font-bold hover:bg-blue-500">Request this placement</a></div> : <p className="mt-4 text-sm text-slate-500">Select a slot to continue.</p>}</div></div></div>
+      </div></section>
+
+      <section id="newsletter" className="px-5 py-20 lg:px-8"><div className="mx-auto max-w-5xl overflow-hidden rounded-3xl border border-blue-500/25 bg-gradient-to-br from-blue-950/80 to-slate-900 p-7 sm:p-12 lg:p-14"><div className="grid gap-8 lg:grid-cols-[1fr_.9fr] lg:items-center"><div><div className="mb-5 inline-flex rounded-xl border border-blue-400/30 bg-blue-400/10 p-3 text-blue-300"><Mail size={22}/></div><p className="text-[10px] font-bold uppercase tracking-[.28em] text-blue-300">Free newsletter</p><h2 className="mt-3 text-4xl font-black leading-tight">Receive the brief.<br/>Investors forward.</h2><p className="mt-4 leading-7 text-slate-400">Every Friday: market maps, founder-grade analysis, retirement strategies, and private capital signals — in one elegant briefing. Free forever.</p></div><div><p className="mb-3 text-[10px] font-bold uppercase tracking-[.2em] text-slate-400">Customize your brief (optional)</p>{subscribed ? <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-5 text-sm text-emerald-300"><Check className="mb-2" size={20}/>Thanks. Your signup has been validated in this preview; connect newsletter storage to save subscribers.</div> : <form onSubmit={e=>{e.preventDefault();if(email.includes("@"))setSubscribed(true);}}><div className="mb-4 grid grid-cols-2 gap-2">{sections.map(s=><button type="button" key={s} onClick={()=>toggleInterest(s)} className={"rounded-full border px-3 py-2 text-xs font-semibold " + (interests.includes(s) ? "border-blue-400 bg-blue-500/20 text-white" : "border-slate-700 text-slate-400")}>{s}</button>)}</div><input type="email" required value={email} onChange={e=>setEmail(e.target.value)} placeholder="Your email address" className="w-full rounded-xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-sm outline-none focus:border-blue-400"/><button type="submit" className="mt-3 w-full rounded-xl bg-blue-600 px-5 py-3 text-sm font-bold hover:bg-blue-500">Subscribe Free <ArrowRight className="ml-2 inline" size={16}/></button><p className="mt-3 text-center text-[10px] text-slate-500">No spam. Unsubscribe any time. Free forever.</p></form>}</div></div></div></section>
+    </main>
+
+    <footer id="profile" className="border-t border-slate-800 bg-[#040810] px-5 py-12 lg:px-8"><div className="mx-auto grid max-w-7xl gap-10 sm:grid-cols-2 lg:grid-cols-4"><div><Logo/><p className="mt-4 max-w-xs text-sm leading-6 text-slate-500">Independent editorial intelligence covering Finance, Economy, Insurance, Travel, and Business Consulting. Free to all readers.</p><a href="https://fod.glinfico.com" className="mt-4 inline-block text-xs font-bold text-blue-300">GLINFICO Financial Operations Division →</a></div><div><h3 className="mb-4 text-xs font-bold uppercase tracking-[.2em] text-blue-300">Sections</h3><div className="space-y-2">{sections.map(s=><a key={s} href="#archive" onClick={()=>setActiveCategory(s)} className="block text-sm text-slate-500 hover:text-white">{s==="Consulting"?"Business Consulting":s}</a>)}</div></div><div><h3 className="mb-4 text-xs font-bold uppercase tracking-[.2em] text-blue-300">Magazine</h3><div className="space-y-2"><a className="block text-sm text-slate-500 hover:text-white" href="#top">Home</a><a className="block text-sm text-slate-500 hover:text-white" href="#archive">Archive</a><a className="block text-sm text-slate-500 hover:text-white" href="#newsletter">Subscribe</a><a className="block text-sm text-slate-500 hover:text-white" href="#consulting">Business Consulting AI</a><a className="block text-sm text-slate-500 hover:text-white" href="#ads">Advertise</a></div></div><div><h3 className="mb-4 text-xs font-bold uppercase tracking-[.2em] text-blue-300">Platform</h3><div className="space-y-2"><a className="block text-sm text-slate-500 hover:text-white" href="https://fod.glinfico.com">GLINFICO FOD</a><a className="block text-sm text-slate-500 hover:text-white" href="https://fod.glinfico.com/submit">Submit a Deal</a><a className="block text-sm text-slate-500 hover:text-white" href="https://fod.glinfico.com/dashboard">Dashboard</a><a className="block text-sm text-slate-500 hover:text-white" href="mailto:contact@glinfico.com">contact@glinfico.com</a></div></div></div><div className="mx-auto mt-10 max-w-7xl border-t border-slate-800 pt-6 text-xs text-slate-600">© 2026 FinVenturePro · A GLINFICO Publication · All rights reserved. <span className="float-right">Free to read. Always.</span></div></footer>
+  </div>;
 }
