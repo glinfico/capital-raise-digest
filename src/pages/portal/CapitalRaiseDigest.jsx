@@ -118,9 +118,9 @@ export default function CapitalRaiseDigest() {
           </div>
         </Card>
 
-        {/* Edition Selector Archive */}
+        {/* Editorial preview topic selector */}
         <div className="space-y-4">
-          <h3 className="text-lg font-bold">Recent Capital Digest Editions</h3>
+          <h3 className="text-lg font-bold">Editorial Preview Topics</h3>
           <div className="grid md:grid-cols-3 gap-4">
             {editions.map(ed => (
               <Card
