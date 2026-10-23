@@ -44,10 +44,15 @@ export default function CapitalRaiseDigest() {
     <div className="min-h-screen bg-[#0a0a12] text-white p-6 md:p-12">
       <div className="max-w-5xl mx-auto space-y-10">
         
-        {/* Magazine Header */}
+        {/* Capital Raise Digest masthead */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pb-8 border-b border-white/10">
           <div>
-            <div className="flex items-center gap-2 mb-2">
+            <div className="flex items-center gap-3 mb-3">
+              <svg aria-label="Capital Raise Digest gold star logo" role="img" width="42" height="42" viewBox="0 0 64 64" fill="none" className="shrink-0">
+                <rect width="64" height="64" rx="13" fill="#24180f" />
+                <path d="M32 5 38.6 24.1 59 24.5 42.7 36.8 48.6 56 32 44.2 15.4 56 21.3 36.8 5 24.5 25.4 24.1Z" fill="#c7a35b" stroke="#e5d2a0" strokeWidth="1.5" strokeLinejoin="round" />
+              </svg>
+              <div className="flex items-center gap-2 mb-2">
               <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30 text-xs font-mono uppercase tracking-widest">
                 crd.glinfico.com • Capital Raise Digest
               </Badge>
