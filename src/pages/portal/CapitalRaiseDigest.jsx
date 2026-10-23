@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -63,14 +62,7 @@ export default function CapitalRaiseDigest() {
           </div>
 
           <div className="flex items-center gap-3">
-            <Link to="/portal" className="text-xs text-slate-400 hover:text-white transition-colors">
-              ← Portal Hub
-            </Link>
-            <Link to="/portal/investor">
-              <Button className="bg-amber-500 hover:bg-amber-400 text-black font-extrabold text-xs cursor-pointer shadow-lg shadow-amber-500/20">
-                View Investor Tranches
-              </Button>
-            </Link>
+            <span className="text-xs text-slate-400">Independent Capital Markets Publication</span>
           </div>
         </div>
 
