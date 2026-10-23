@@ -58,7 +58,7 @@ export default function CapitalRaiseDigest() {
               </div>
             </div>
             <h1 className="text-4xl font-black tracking-tight">Executive Capital Intelligence</h1>
-            <p className="text-slate-400 text-xs mt-1">Autonomous daily synthesis powered by Bloomberg market feeds and Claude financial intelligence</p>
+            <p className="text-slate-400 text-xs mt-1">Capital-markets coverage, fundraising themes, and deal intelligence. Verify source data before relying on any figures.</p>
           </div>
 
           <div className="flex items-center gap-3">
@@ -89,10 +89,10 @@ export default function CapitalRaiseDigest() {
 
           <div className="bg-white/5 p-6 rounded-2xl border border-white/10 space-y-4">
             <h3 className="text-xs font-mono uppercase tracking-widest text-amber-400 flex items-center gap-2">
-              <Activity className="h-4 w-4" /> Editorial Synthesis & Telemetry Breakdown
+              <Activity className="h-4 w-4" /> Capital Markets Briefing — Illustrative Sample
             </h3>
             <p className="text-slate-300 text-xs leading-relaxed">
-              Global capital flows are undergoing a structural shift toward autonomous BaaS origination engines. By fusing real-time FICO bureau telemetry (Equifax, Experian, TransUnion) with FinGoal merchant cash flow stability scores, institutional lenders can deploy high-yield debt tranches with unprecedented precision.
+              This section demonstrates the publication format. Replace illustrative commentary and metrics with source-checked reporting before treating them as factual market data.
             </p>
             <div className="grid md:grid-cols-3 gap-4 pt-2">
               <div className="bg-black/40 p-3 rounded-xl border border-white/10">
@@ -113,7 +113,7 @@ export default function CapitalRaiseDigest() {
           <div className="flex justify-between items-center pt-4 border-t border-white/10 text-xs text-slate-400">
             <span>Authored by: <strong className="text-white">{activeContent.author}</strong></span>
             <span className="flex items-center gap-1 text-amber-400 font-bold">
-              Verified Bloomberg Feed <ShieldCheck className="h-4 w-4" />
+              Editorial Sample — Verify Sources <ShieldCheck className="h-4 w-4" />
             </span>
           </div>
         </Card>
