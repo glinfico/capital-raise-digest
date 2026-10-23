@@ -56,6 +56,7 @@ export default function CapitalRaiseDigest() {
               <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30 text-xs font-mono uppercase tracking-widest">
                 crd.glinfico.com • Capital Raise Digest
               </Badge>
+              </div>
             </div>
             <h1 className="text-4xl font-black tracking-tight">Executive Capital Intelligence</h1>
             <p className="text-slate-400 text-xs mt-1">Autonomous daily synthesis powered by Bloomberg market feeds and Claude financial intelligence</p>
