@@ -1,8 +1,8 @@
 {
-  "name": "glinfico-smart-funding-router",
+  "name": "capital-raise-digest",
   "version": "1.0.0",
   "private": true,
-  "description": "GLINFICO Smart Funding Router",
+  "description": "Capital Raise Digest — independent capital markets intelligence publication",
   "type": "module",
   "main": "server.js",
   "scripts": {
